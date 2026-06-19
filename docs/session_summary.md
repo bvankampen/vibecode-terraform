@@ -62,9 +62,9 @@ graph TD
 *   Successfully hot-attached the physical NVIDIA GeForce RTX 4060 Ti GPU (`nvidia.com/AD106_GEFORCE_RTX_4060_TI`) directly to the KubeVirt virtual machine.
 
 ### Milestone 6: RKE2 Server Installation
-*   SSHed into the SLES15 guest and executed the standard RKE2 installation script, locking the stable channel to pull Kubernetes `v1.35.5+rke2r2`.
-*   Enabled and started `rke2-server.service` daemon.
-*   Configured node-local kubeconfigs with secure permissions and copied a sanitized copy of the `kubeconfig` locally for remote administration.
+*   Automated RKE2 bootstrapping by declaring the complete installation pipeline in Terraform cloud-init config (`cloud-config.yaml`).
+*   Configured automatic package fetching (`INSTALL_RKE2_CHANNEL=stable`) and systemd daemon execution on initial VM boot.
+*   Automated node-local kubeconfig path declarations, symlinking, and shell environment parameters for the `sles` admin user.
 
 ### Milestone 7: Dynamic Storage & SLES GPU Driver Binding
 *   Pipelined the installation of Rancher's official lightweight `local-path-provisioner` (v0.0.35) and set it as the default StorageClass to dynamically resolve persistent volume claims.
@@ -88,7 +88,7 @@ graph TD
 *   Integrated a recursive double-wildcard `.gitignore` to keep dynamic state files, local binaries, and sensitive variable files (like `terraform.tfvars` and `kubeconfig`) strictly out of Git tracking.
 *   Refactored all absolute documentation paths and URLs to use relative markdown paths.
 *   Generalized all occurrences of specific local IP addresses (`192.168.96.226`) to the generic `<VM_IP>` placeholder across all guides and code examples.
-*   Created `session_prompts.md` logging all 36 prompts from this session.
+*   Created `session_prompts.md` logging all 37 prompts from this session.
 
 ---
 
@@ -143,7 +143,7 @@ Below is the list of files modified during this session and the exact purpose of
 
 ### 10. [session_prompts.md](session_prompts.md)
 *   **Location**: `docs/` folder
-*   **Changes**: Compiled a complete, chronological history of all 36 prompts from the absolute start of this session.
+*   **Changes**: Compiled a complete, chronological history of all 37 prompts from the absolute start of this session.
 *   **Purpose**: Serves as a traceable operational log.
 
 ### 11. [README.md](../README.md)

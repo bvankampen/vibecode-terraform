@@ -140,24 +140,28 @@ resource "harvester_virtualmachine" "vm" {
 
 ## ☸️ 4. RKE2 Installation on SLES15 SP7 Guest
 
-RKE2 (v1.35.5+rke2r2) is installed in single-node control-plane mode on the VM guest.
+RKE2 (v1.35.5+rke2r2) is automatically installed and configured on the VM guest during initial provisioning via Terraform's cloud-init configuration ([cloud-config.yaml](../terraform/cloud-config.yaml)).
 
-### Installation Steps (Executed on VM Guest)
-1. Install RKE2 server:
+### Automated Bootstrap & Lifecycle Flow
+When OpenTofu / Terraform provisions the `harvester_virtualmachine` resource, cloud-init executes the following background tasks:
+1. **Automated Package Sourcing**: Downloads the RKE2 installation script and pulls the stable Kubernetes binaries directly from the RKE2 update channel:
    ```bash
-   curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_TYPE=server sudo sh -
+   curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_TYPE=server sh -
    ```
-2. Enable and start RKE2 systemd service:
+2. **Daemon Orchestration**: Registers and starts the `rke2-server.service` daemon:
    ```bash
-   sudo systemctl enable --now rke2-server.service
+   systemctl enable --now rke2-server.service
    ```
-3. Set up Kubeconfig access for the `sles` user:
+3. **Kubeconfig Access Setup**: Waits for the control plane to generate local credentials and copies them with correct permissions for the admin `sles` user:
    ```bash
    mkdir -p /home/sles/.kube
-   sudo cp /etc/rancher/rke2/rke2.yaml /home/sles/.kube/config
-   sudo chown -R sles:users /home/sles/.kube
+   cp /etc/rancher/rke2/rke2.yaml /home/sles/.kube/config
+   chown -R sles:users /home/sles/.kube
    chmod 600 /home/sles/.kube/config
    ```
+4. **Environment Paths Setup**: Sets up administrative shell variables and symlinks `kubectl` and `helm` in `/usr/local/bin` for immediate SSH usage.
+
+Therefore, no manual command-line installation is required; RKE2 is fully active and operational once the VM is online.
 
 ---
 

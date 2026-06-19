@@ -4,3 +4,34 @@ ssh_authorized_keys:
 
 package_update: false
 package_upgrade: false
+
+runcmd:
+  # Download and install RKE2 server
+  - echo "Starting RKE2 installation via Cloud-Init..."
+  - curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_TYPE=server sh -
+  
+  # Enable and start rke2-server service
+  - systemctl enable --now rke2-server.service
+
+  # Loop-wait for RKE2 to generate kubeconfig configuration
+  - |
+    while [ ! -f /etc/rancher/rke2/rke2.yaml ]; do
+      echo "Waiting for rke2.yaml..."
+      sleep 2
+    done
+
+  # Setup node-local kubeconfig directory and permissions for 'sles' admin user
+  - mkdir -p /home/sles/.kube
+  - cp /etc/rancher/rke2/rke2.yaml /home/sles/.kube/config
+  - chown -R sles:users /home/sles/.kube
+  - chmod 600 /home/sles/.kube/config
+
+  # Symlink binaries to the standard path for immediate command-line execution
+  - mkdir -p /usr/local/bin
+  - ln -sf /var/lib/rancher/rke2/bin/kubectl /usr/local/bin/kubectl
+  - ln -sf /var/lib/rancher/rke2/bin/helm /usr/local/bin/helm
+
+  # Export environment variables for the user profile shell
+  - echo "export PATH=\$PATH:/var/lib/rancher/rke2/bin" >> /home/sles/.bashrc
+  - echo "export KUBECONFIG=/home/sles/.kube/config" >> /home/sles/.bashrc
+  - echo "RKE2 deployment completed successfully."

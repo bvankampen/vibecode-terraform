@@ -1,6 +1,6 @@
 # Session Prompts
 
-This document contains a complete and chronological log of all 36 instructions and prompts provided by the user during this entire engineering session.
+This document contains a complete and chronological log of all 37 instructions and prompts provided by the user during this entire engineering session.
 
 ---
 
@@ -42,3 +42,4 @@ This document contains a complete and chronological log of all 36 instructions a
 | **34** | 1040 | 2026-06-19T10:58:58Z | `also update the session summary to show the whole session from the start` |
 | **35** | 1046 | 2026-06-19T11:00:34Z | `there are still things missing in the prompts and session file` |
 | **36** | 1202 | 2026-06-19T11:07:28Z | `[Approved] session_summary.md`<br>`[Approved] session_prompts.md`<br>`[Approved] deployment_configuration.md` |
+| **37** | 1228 | 2026-06-19T11:12:12Z | `add the installation of rke2 to the terraform scripts instead of the command line install` |
