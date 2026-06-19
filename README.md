@@ -143,7 +143,7 @@ If Ollama has been deployed and exposed on port 80 via Ingress (see [ollama-valu
 
 ### 1. Curl Endpoint (Fast Validation)
 ```bash
-curl -s -X POST http://192.168.96.226/api/generate \
+curl -s -X POST http://<VM_IP>/api/generate \
   -H "Content-Type: application/json" \
   -d '{
     "model": "default",
@@ -158,7 +158,7 @@ Ensure you have the standard SDK (`pip install openai`) and initialize targeting
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="http://192.168.96.226/v1",
+    base_url="http://<VM_IP>/v1",
     api_key="ollama"  # Required but ignored
 )
 

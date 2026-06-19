@@ -42,7 +42,7 @@ graph TD
 *   Executed `sudo xfs_growfs /` to expand the XFS filesystem, freeing up **41 GiB** of storage capacity.
 
 ### Milestone C: Installing RKE2 Server
-*   SSHed into the VM guest (`sles@192.168.96.226`) using ECDSA public keys.
+*   SSHed into the VM guest (`sles@<VM_IP>`) using ECDSA public keys.
 *   Ran the standard RKE2 installation script, setting the release channel to stable to fetch `v1.35.5+rke2r2`.
 *   Enabled and started the `rke2-server.service` daemon.
 *   Configured node-local kubeconfig under `/home/sles/.kube/config` with correct file permissions.
@@ -76,7 +76,7 @@ Below is the list of files modified during this session and the exact purpose of
 
 ### 2. [kubeconfig](../kubernetes/kubeconfig)
 *   **Location**: `kubernetes/` folder
-*   **Changes**: Cleanly written and formatted to target the remote `https://192.168.96.226:6443` API server.
+*   **Changes**: Cleanly written and formatted to target the remote `https://<VM_IP>:6443` API server.
 *   **Purpose**: Enables remote cluster management directly from the administrator's local environment.
 
 ### 3. [ollama-values.yaml](../kubernetes/ollama-values.yaml)

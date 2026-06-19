@@ -219,7 +219,7 @@ We configure the `otwld/ollama` Helm deployment with:
 1.  **Persistence**: Bound to a 30Gi claim on our `local-path` StorageClass to save downloaded weights permanently.
 2.  **GPU limits**: Automatically requests and maps `nvidia.com/gpu: 1`.
 3.  **Default Model Mapping**: Leverages the `create` directive to construct a custom model named `default` that inherits from `gemma4:e2b`.
-4.  **LAN Access (Port 80 HTTP)**: Includes a custom `networking.k8s.io/v1` `Ingress` in `extraObjects`. By omitting the `host` matching constraint, RKE2's embedded NGINX Ingress controller routes all external port 80 LAN traffic (e.g. `http://192.168.96.226/`) directly to the backend Ollama service. High-performance timeouts are annotated to prevent 504 gateway timeouts on long LLM inference streams.
+4.  **LAN Access (Port 80 HTTP)**: Includes a custom `networking.k8s.io/v1` `Ingress` in `extraObjects`. By omitting the `host` matching constraint, RKE2's embedded NGINX Ingress controller routes all external port 80 LAN traffic (e.g. `http://<VM_IP>/`) directly to the backend Ollama service. High-performance timeouts are annotated to prevent 504 gateway timeouts on long LLM inference streams.
 
 ```yaml
 persistentVolume:
@@ -312,13 +312,13 @@ kubectl --kubeconfig ./kubernetes/kubeconfig exec -it -n ollama deploy/ollama --
 
 ## 🚀 9. LAN API Usage Examples & Samples
 
-Once Ollama is deployed and exposed via the custom LAN Ingress (configured in [ollama-values.yaml](../kubernetes/ollama-values.yaml#L26-L51)), clients across the network can query the API server remotely on standard HTTP port 80 using the node's LAN IP address (`192.168.96.226`).
+Once Ollama is deployed and exposed via the custom LAN Ingress (configured in [ollama-values.yaml](../kubernetes/ollama-values.yaml#L26-L51)), clients across the network can query the API server remotely on standard HTTP port 80 using the node's LAN IP address (`<VM_IP>`).
 
 ### A. Command-Line Interface (cURL)
 
 #### 1. Text Generation (Non-Streaming)
 ```bash
-curl -s -X POST http://192.168.96.226/api/generate \
+curl -s -X POST http://<VM_IP>/api/generate \
   -H "Content-Type: application/json" \
   -d '{
     "model": "default",
@@ -330,7 +330,7 @@ curl -s -X POST http://192.168.96.226/api/generate \
 #### 2. OpenAI-Compatible Chat Completions
 Ollama exposes an OpenAI-compliant gateway. This allows you to point any OpenAI-compatible app directly to your local cluster:
 ```bash
-curl -s -X POST http://192.168.96.226/v1/chat/completions \
+curl -s -X POST http://<VM_IP>/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "model": "default",
@@ -348,7 +348,7 @@ curl -s -X POST http://192.168.96.226/v1/chat/completions \
 ```python
 import requests
 
-url = "http://192.168.96.226/api/generate"
+url = "http://<VM_IP>/api/generate"
 payload = {
     "model": "default",
     "prompt": "What are the core components of RKE2?",
@@ -370,7 +370,7 @@ from openai import OpenAI
 
 # Initialize client pointing to the RKE2 LAN Ingress
 client = OpenAI(
-    base_url="http://192.168.96.226/v1",
+    base_url="http://<VM_IP>/v1",
     api_key="ollama"  # Required by the SDK block, but ignored by Ollama
 )
 
