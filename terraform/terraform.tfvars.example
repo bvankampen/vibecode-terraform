@@ -1,0 +1,107 @@
+# =============================================================================
+# Example Terraform Variables Configuration (terraform.tfvars.example)
+# =============================================================================
+# This file serves as a template. Copy this file to 'terraform.tfvars' and
+# customize the values to match your specific Harvester cluster environment.
+#
+# Reference Variables Schema: variables.tf
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Harvester Provider Credentials & Context
+# -----------------------------------------------------------------------------
+
+# Path to the Kubernetes kubeconfig file downloaded from the Harvester dashboard.
+# Overridden if kubeconfig_content is provided.
+kubeconfig_path = "~/.kube/harvester.yaml"
+
+# Alternatively, the raw or base64-encoded kubeconfig content can be provided.
+# This takes precedence over kubeconfig_path. Useful in CI/CD pipelines.
+# kubeconfig_content = "apiVersion: v1..."
+
+# Specific context to use within the kubeconfig file. Left empty to use current-context.
+# kubecontext = "harvester-context"
+
+
+# -----------------------------------------------------------------------------
+# 2. Virtual Machine Sizing & Identity
+# -----------------------------------------------------------------------------
+
+# The name of the virtual machine to provision in Harvester.
+vm_name = "sles15-sp7-ollama-gpu"
+
+# The target Kubernetes namespace inside Harvester to provision the VM.
+vm_namespace = "default"
+
+# Allocate compute resources. These specs are configured to run high-performance
+# workloads like RKE2 with an integrated GPU and Ollama AI core.
+cpu    = 4
+memory = "16Gi"
+
+# The running policy for the VM. Options include:
+# - Always: VM will always run (automatically boots up if halted).
+# - RerunOnFailure: Boots up; restarts only if guest OS or agent crashes.
+# - Halted: VM is stopped/powered off.
+# - Manual: Allows manual control over power state from the dashboard.
+run_strategy = "RerunOnFailure"
+
+
+# -----------------------------------------------------------------------------
+# 3. Storage Configuration
+# -----------------------------------------------------------------------------
+
+# Disk size allocated for the root volume. Minimum 50Gi is recommended to support
+# local Kubernetes storage, Ollama base engine, and Gemma 4 model caching.
+disk_size = "50Gi"
+
+# Driver bus for storage disk. 'virtio' is highly recommended for optimal performance.
+disk_bus = "virtio"
+
+
+# -----------------------------------------------------------------------------
+# 4. OS Image Configuration
+# -----------------------------------------------------------------------------
+
+# Set to true to reference an OS image that already exists in your Harvester catalog.
+use_existing_image = true
+image_name         = "image-knp9r"
+image_namespace    = "default"
+
+# If use_existing_image is set to false, uncomment and configure these settings
+# to let the Harvester provider download, register, and track a new image:
+# use_existing_image = false
+# image_name         = "sles15-sp7-nvidia.x86_64-15.7.0.qcow2"
+# image_display_name = "sles15-sp7-nvidia.x86_64-15.7.0.qcow2"
+# image_download_url = "http://your-local-image-server/sles15-sp7-nvidia.x86_64-15.7.0.qcow2"
+
+
+# -----------------------------------------------------------------------------
+# 5. Network Configuration
+# -----------------------------------------------------------------------------
+
+# Target NetworkAttachmentDefinition ID (e.g., namespace/network-name) to attach
+# the VM to. If empty, the VM will use the default management overlay network.
+# Using vlan-1000 allows VM to gain a bridge-based physical IP.
+network_name = "harvester-public/vlan-1000"
+
+
+# -----------------------------------------------------------------------------
+# 6. SSH Key & Cloud-Init User Data Configuration
+# -----------------------------------------------------------------------------
+
+# Set to true to import a new public key into your Harvester catalog.
+create_ssh_key = true
+
+# The name to assign to the new SSH key or the name of an existing SSH key.
+ssh_key_name = "suse-ops-ssh"
+
+# The SSH public key content to import if create_ssh_key is true, or inject via cloud-init.
+# Replace this with your actual public key (e.g., ecdsa-sha2-nistp256 or ssh-ed25519).
+ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExamplePublicKeyContentPlaceholder user@domain.com"
+
+# Optional raw cloud-init user-data to configure the guest OS. If left empty,
+# the default cloud-config.yaml will automatically be generated and applied.
+# user_data = <<-EOF
+# #cloud-config
+# ...
+# EOF
