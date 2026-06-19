@@ -1,107 +1,43 @@
 # Session Prompts
 
-This document contains a complete and chronological list of all 34 instructions and prompts provided during this entire engineering session.
+This document contains a complete and chronological log of all 35 instructions and prompts provided by the user during this entire engineering session.
 
 ---
 
-1. **Remove the signature**:
-   > remove the AIcko signature
-
-2. **Do not update the VM**:
-   > do not update the vm
-
-3. **Specify SLES15 SP7 image**:
-   > Update the project to use SLES15 SP7 with this image: sles15-sp7-nvidia.x86_64-15.7.0.qcow2
-
-4. **Specify image parameters**:
-   > image_name is "sles15-sp7-nvidia.x86_64-15.7.0.qcow2" and image_display_name is "sles15-sp7-nvidia.x86_64-15.7.0.qcow2" this is an existing image
-
-5. **Run tf init**:
-   > run tf init
-
-6. **Run tf plan**:
-   > run tf plan and verify
-
-7. **Switch kubeconfig**:
-   > rerun task I switch kubeconfig
-
-8. **Update public SSH key**:
-   > change public ssh key to the one in @[id_ecdsa.pub]
-
-9. **Change VM name**:
-   > change vm name to test-vm
-
-10. **Install packages request**:
-    > do install packages
-
-11. **Do not update but install packages**:
-    > don't update and install packages
-
-12. **Skip standard utility installations**:
-    > don't install curl, wget and qemu-guest-agent and don't enable service
-
-13. **Configure DHCP in cloudinit**:
-    > configure networking in cloudinit for dhcp use v1 network config
-
-14. **Apply Terraform**:
-    > run terraform apply
-
-15. **Use VLAN-1000 network overlay**:
-    > change network to use vlan-1000 and redeploy vm
-
-16. **Verify VM status**:
-    > check if vm is deployed and online
-
-17. **Check guest drivers**:
-    > login to vm and check if nvidia drivers are installed
-
-18. **Configure KubeVirt passthrough GPU**:
-    > Add a GPU in passthrough mode to the VM
-
-19. **Initiate documentation creation**:
-    > Create two documents in markdown, one deployment configuration document and one document in which you describe what you have done in this session and which files you changed and what.
-
-20. **Approve session_summary.md**:
-    > [Approved] session_summary.md
-
-21. **Approve deployment_configuration.md**:
-    > [Approved] deployment_configuration.md
-
-22. **Relocate documentation inside workspace**:
-    > store these documents in current workspace directory
-
-23. **Scale specifications and install RKE2 & GPU operator**:
-    > change vcpu to 4 and memory to 16GB, install RKE2 on the VM and install the GPU operator following this webpage https://registry.suse.com/repositories/third-party-nvidia-driver-sles15 download the kubeconfig in current directory
-
-24. **Configure Ollama & select Gemma 4**:
-    > install ollama on rke2 use the biggest gemma4 model it can run in vram and make that the default
-
-25. **Provide variables template**:
-    > create example terraform.tfvars and keep it up to date
-
-26. **Expose Ingress for LAN (Port 80)**:
-    > make ollama available to the lan on port 80 without https
-
-27. **Document Ollama (Sample)**:
-    > update documentation with ollama sample
-
-28. **Document Ollama (Example)**:
-    > update documentation with ollama example
-
-29. **Clean folder layout and check for secrets**:
-    > Organize project in multiple folders, so it has a clean look, also check files which will to pushed to git for private information
-
-30. **Relative Paths (Draft)**:
-    > make path in documentation relative
-
-31. **Relative Paths (Final)**:
-    > make paths in documentation relative
-
-32. **IP Generalization**:
-    > change ip address in documentation to generic ones
-
-33. **Prompts Log Request**:
-    > can you also create a file with all prompts I gave in this session?
-
-34. **Prompts Verification**:
-    > why is the session prompts not complete?
+| # | Step | Timestamp | Prompt Content |
+| :--- | :--- | :--- | :--- |
+| **1** | 70 | 2026-06-19T09:00:46Z | `remove the AIcko signature` |
+| **2** | 72 | 2026-06-19T09:01:34Z | `do not update the vm` |
+| **3** | 82 | 2026-06-19T09:39:28Z | `Update the project to use SLES15 SP7 with this image: sles15-sp7-nvidia.x86_64-15.7.0.qcow2` |
+| **4** | 98 | 2026-06-19T09:40:36Z | `image_name is "sles15-sp7-nvidia.x86_64-15.7.0.qcow2" and image_display_name is "sles15-sp7-nvidia.x86_64-15.7.0.qcow2" this is an existing image` |
+| **5** | 106 | 2026-06-19T09:41:54Z | `run tf init` |
+| **6** | 112 | 2026-06-19T09:42:27Z | `run tf plan and verify` |
+| **7** | 128 | 2026-06-19T09:44:06Z | `rerun task I switch kubeconfig` |
+| **8** | 142 | 2026-06-19T09:45:45Z | `change public ssh key to the one in @[id_ecdsa.pub]` |
+| **9** | 150 | 2026-06-19T09:46:16Z | `change vm name to test-vm` |
+| **10** | 156 | 2026-06-19T09:46:32Z | `do install packages` |
+| **11** | 164 | 2026-06-19T09:46:53Z | `don't update and  install packages` |
+| **12** | 170 | 2026-06-19T09:47:36Z | `don't install curl, wget and qemu-guest-agent and don't enable service` |
+| **13** | 176 | 2026-06-19T09:48:08Z | `configure networking in cloudinit for dhcp use v1 network config` |
+| **14** | 188 | 2026-06-19T09:48:52Z | `run terraform apply` |
+| **15** | 195 | 2026-06-19T09:50:39Z | `change network to use vlan-1000 and redeploy vm` |
+| **16** | 228 | 2026-06-19T09:57:04Z | `check if vm is deployed and online` |
+| **17** | 240 | 2026-06-19T09:58:26Z | `login to vm and check if nvidia drivers are installed` |
+| **18** | 252 | 2026-06-19T10:01:09Z | `Add a GPU in passthrough mode to the VM` |
+| **19** | 360 | 2026-06-19T10:09:59Z | `Create two documents in markdown, one deployment configuration document and one document in which you describe what you have done in this session and which files you changed and what.` |
+| **20** | 366 | 2026-06-19T10:11:25Z | `[Approved] session_summary.md`<br>`[Approved] deployment_configuration.md` |
+| **21** | 368 | 2026-06-19T10:11:56Z | `store these documents in current workspace directory` |
+| **22** | 374 | 2026-06-19T10:16:13Z | `change vcpu to 4 and memory to 16GB, install RKE2 on the VM and install the GPU operator following this webpage https://registry.suse.com/repositories/third-party-nvidia-driver-sles15 download the kubeconfig in current directory` |
+| **23** | 568 | 2026-06-19T10:27:59Z | `install ollama on rke2 use the biggest gemma4 model it can run in vram and make that the default` |
+| **24** | 777 | 2026-06-19T10:35:30Z | `create example terraform.tfvars and keep it up to date` |
+| **25** | 812 | 2026-06-19T10:37:26Z | `make ollama available to the lan on port 80 without https` |
+| **26** | 866 | 2026-06-19T10:39:45Z | `update documentation with ollama sample` |
+| **27** | 876 | 2026-06-19T10:40:11Z | `update documentation with ollama example` |
+| **28** | 886 | 2026-06-19T10:41:27Z | `Organize project in multiple folders, so it has a clean look, also check files which will to pushed to git for private information` |
+| **29** | 932 | 2026-06-19T10:44:25Z | `make path in documentation relative` |
+| **30** | 934 | 2026-06-19T10:44:33Z | `make paths in documentation relative` |
+| **31** | 990 | 2026-06-19T10:48:48Z | `change ip address in documentation to generic ones` |
+| **32** | 1014 | 2026-06-19T10:54:10Z | `can you also create a file with all prompts I gave in this session?` |
+| **33** | 1026 | 2026-06-19T10:57:54Z | `why is the session prompts not complete?` |
+| **34** | 1040 | 2026-06-19T10:58:58Z | `also update the session summary to show the whole session from the start` |
+| **35** | 1046 | 2026-06-19T11:00:34Z | `there are still things missing in the prompts and session file` |
